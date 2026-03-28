@@ -1,0 +1,32 @@
+﻿SNIPPETS CHEAT SHEET
+
+Base JS/TS
+cl    -> console.log()
+qs    -> document.querySelector('')
+qsa   -> document.querySelectorAll('')
+ael   -> addEventListener
+ust   -> 'use strict';
+fn    -> function name(args) {}
+cn    -> const x =
+
+React
+rfc   -> React component
+rsc   -> styled-components component
+csm   -> import CSS module
+
+React Hooks
+us    -> useState (TS)
+ue    -> useEffect
+um    -> useMemo
+ucb   -> useCallback
+ur    -> useRef (TS)
+
+TypeScript
+int   -> interface Name {}
+
+Redux Toolkit
+slice -> createSlice + initialState + reducers + actions
+
+Next.js
+nclient -> client component ('use client')
+npage   -> page component
