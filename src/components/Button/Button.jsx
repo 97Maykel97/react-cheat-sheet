@@ -1,12 +1,11 @@
-import classes from './Button.module.scss';
+import classes from './Button.module.css';
 
-const isPrimary = true;
-
-function Button({ onClick, children }) {
+function Button({ onClick, isActive, isDisabled, children }) {
 	return (
 		<button
-			className={`${classes.btn} ${isPrimary ? classes.primary : ''}`}
+			className={`${classes.btn} ${isActive ? classes.active : ''}`}
 			onClick={onClick}
+			disabled={isDisabled}
 		>
 			{children}
 		</button>

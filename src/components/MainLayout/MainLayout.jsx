@@ -1,10 +1,11 @@
 import { Outlet } from 'react-router-dom';
 import classes from './MainLayout.module.css';
+import Header from '../Header/Header';
 function MainLayout() {
 	const currentYear = new Date().getFullYear();
 	return (
 		<div className={classes.mainLayout}>
-			<header>header</header>
+			<Header />
 			<div className={classes.mainWrapper}>
 				<main className={classes.main}>
 					<Outlet />
