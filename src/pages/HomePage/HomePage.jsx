@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { API_URL } from '../../constants';
 import QuestionCardList from '../../components/QuestionCardList';
 import { Loader } from '../../components/Loader';
@@ -9,6 +9,7 @@ import SearchInput from '../../components/SearchInput';
 function HomePage() {
 	const [questions, setQuestions] = useState([]);
 	const [searchValue, setSearchValue] = useState('');
+	const [sortSelectValue, setSortSelectValue] = useState('');
 
 	const [getQuestions, isLoading, error] = useFetch(async url => {
 		const response = await fetch(`${API_URL}/${url}`);
@@ -18,24 +19,47 @@ function HomePage() {
 		return questions;
 	});
 
+	const cards = useMemo(() => {
+		return questions.filter(data =>
+			data.question.toLowerCase().includes(searchValue.trim().toLowerCase()),
+		);
+	}, [questions, searchValue]);
+
 	useEffect(() => {
-		getQuestions('react');
-	}, []);
+		getQuestions(`react?${sortSelectValue}`);
+	}, [sortSelectValue]);
 
 	const onSearchChangeHandler = e => {
 		setSearchValue(e.target.value);
+	};
+
+	const onSortSelectChangeHandler = e => {
+		setSortSelectValue(e.target.value);
 	};
 
 	return (
 		<>
 			<div className={classes.controlsContainer}>
 				<SearchInput value={searchValue} onChange={onSearchChangeHandler} />
+				<select
+					value={sortSelectValue}
+					onChange={onSortSelectChangeHandler}
+					className={classes.select}
+				>
+					<option value=''>sort by</option>
+					<hr />
+					<option value='_sort=level'>level ASC</option>
+					<option value='_sort=-level'>level DESC</option>
+					<option value='_sort=completed'>completed ASC</option>
+					<option value='_sort=-completed'>completed DESC</option>
+				</select>
 			</div>
 
 			{isLoading && <Loader />}
-			{isLoading && <Loader />}
 			{error && <p>{error}</p>}
-			<QuestionCardList cards={questions} />
+			{cards.length === 0 && <p className={classes.noCardsInfo}>No cards...</p>}
+
+			<QuestionCardList cards={cards} />
 		</>
 	);
 }
