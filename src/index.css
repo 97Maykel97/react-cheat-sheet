@@ -45,7 +45,7 @@ body {
 	}
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
 	:root {
 		--main-bg-color: #23272f;
 		--text-color: #fff;

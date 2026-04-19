@@ -7,7 +7,7 @@ import classes from './HomePage.module.css';
 import SearchInput from '../../components/SearchInput';
 import Button from '../../components/Button';
 
-const DEFAULT_PER_PAGE = 10;
+const DEFAULT_PER_PAGE = 20;
 
 function HomePage() {
 	const [searchParams, setSearchParams] = useState(
@@ -16,6 +16,7 @@ function HomePage() {
 	const [questions, setQuestions] = useState({});
 	const [searchValue, setSearchValue] = useState('');
 	const [sortSelectValue, setSortSelectValue] = useState('');
+	const [countSelectValue, setCountSelectValue] = useState('');
 
 	const controlsContainerRef = useRef();
 
@@ -63,7 +64,7 @@ function HomePage() {
 		setSortSelectValue(e.target.value);
 
 		setSearchParams(
-			`?_page=1&_per_page=${DEFAULT_PER_PAGE}${
+			`?_page=1&_per_page=${countSelectValue}${
 				e.target.value ? `&${e.target.value}` : ''
 			}`,
 		);
@@ -72,12 +73,21 @@ function HomePage() {
 	const paginationHandler = e => {
 		if (e.target.tagName === 'BUTTON') {
 			setSearchParams(
-				`?_page=${e.target.textContent}&_per_page=${DEFAULT_PER_PAGE}${
+				`?_page=${e.target.textContent}&_per_page=${countSelectValue}${
 					sortSelectValue ? `&${e.target.value}` : ''
 				}`,
 			);
 			controlsContainerRef.current.scrollIntoView({ behavior: 'smooth' });
 		}
+	};
+
+	const onCountSelectChangeHandler = e => {
+		setCountSelectValue(e.target.value);
+		setSearchParams(
+			`?_page=1&_per_page=${e.target.value}${
+				sortSelectValue ? `&${e.target.value}` : ''
+			}`,
+		);
 	};
 
 	return (
@@ -95,6 +105,19 @@ function HomePage() {
 					<option value='_sort=completed'>completed ASC</option>
 					<option value='_sort=-completed'>completed DESC</option>
 				</select>
+
+				<select
+					value={countSelectValue}
+					onChange={onCountSelectChangeHandler}
+					className={classes.select}
+				>
+					<option disabled>count</option>
+					<option value='10'>10</option>
+					<option value='20'>20</option>
+					<option value='30'>30</option>
+					<option value='50'>50</option>
+					<option value='100'>100</option>
+				</select>
 			</div>
 
 			{isLoading && <Loader />}
@@ -105,19 +128,20 @@ function HomePage() {
 			{cards.length === 0 ? (
 				<p className={classes.noCardsInfo}>No cards...</p>
 			) : (
-				<div
-					className={classes.paginationContainer}
-					onClick={paginationHandler}
-				>
-					{pagination.map(value => {
-						return (
-							<Button kay={value} isActive={value === getActivePageNumber()}>
-								{' '}
-								{value}{' '}
-							</Button>
-						);
-					})}
-				</div>
+				pagination.length > 1 && (
+					<div
+						className={classes.paginationContainer}
+						onClick={paginationHandler}
+					>
+						{pagination.map(value => {
+							return (
+								<Button kay={value} isActive={value === getActivePageNumber()}>
+									{value}
+								</Button>
+							);
+						})}
+					</div>
+				)
 			)}
 		</>
 	);
