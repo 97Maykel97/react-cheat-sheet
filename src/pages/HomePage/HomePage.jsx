@@ -7,7 +7,7 @@ import classes from './HomePage.module.css';
 import SearchInput from '../../components/SearchInput';
 import Button from '../../components/Button';
 
-const DEFAULT_PER_PAGE = 20;
+const DEFAULT_PER_PAGE = 10;
 
 function HomePage() {
 	const [searchParams, setSearchParams] = useState(
@@ -16,7 +16,9 @@ function HomePage() {
 	const [questions, setQuestions] = useState({});
 	const [searchValue, setSearchValue] = useState('');
 	const [sortSelectValue, setSortSelectValue] = useState('');
-	const [countSelectValue, setCountSelectValue] = useState('');
+	const [countSelectValue, setCountSelectValue] = useState(
+		`${DEFAULT_PER_PAGE}`,
+	);
 
 	const controlsContainerRef = useRef();
 
@@ -74,7 +76,7 @@ function HomePage() {
 		if (e.target.tagName === 'BUTTON') {
 			setSearchParams(
 				`?_page=${e.target.textContent}&_per_page=${countSelectValue}${
-					sortSelectValue ? `&${e.target.value}` : ''
+					sortSelectValue ? `&${sortSelectValue}` : ''
 				}`,
 			);
 			controlsContainerRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -85,7 +87,7 @@ function HomePage() {
 		setCountSelectValue(e.target.value);
 		setSearchParams(
 			`?_page=1&_per_page=${e.target.value}${
-				sortSelectValue ? `&${e.target.value}` : ''
+				sortSelectValue ? `&${sortSelectValue}` : ''
 			}`,
 		);
 	};
@@ -135,7 +137,7 @@ function HomePage() {
 					>
 						{pagination.map(value => {
 							return (
-								<Button kay={value} isActive={value === getActivePageNumber()}>
+								<Button key={value} isActive={value === getActivePageNumber()}>
 									{value}
 								</Button>
 							);

@@ -9,4 +9,4 @@ function NotFoundPage() {
 }
 
 export default NotFoundPage;
-export {} from './';
+export {} from '.';

@@ -69,7 +69,7 @@
         "https://react.dev/learn/state-a-components-memory"
       ],
       "level": 2,
-      "completed": true
+      "completed": false
     },
     {
       "id": "7",
@@ -565,5 +565,6 @@
       "level": 1,
       "completed": false
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

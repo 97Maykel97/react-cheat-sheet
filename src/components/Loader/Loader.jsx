@@ -1,13 +1,13 @@
-import cls from "./Loader.module.css";
+import classes from './Loader.module.css';
 
 export const Loader = () => {
-  return (
-    <div className={cls.backdrop}>
-      <span className={cls.loader}></span>
-    </div>
-  );
+	return (
+		<div className={classes.backdrop}>
+			<span className={classes.loader}></span>
+		</div>
+	);
 };
 
 export const SmallLoader = () => {
-  return <span className={cls.smallLoader}></span>;
+	return <span className={classes.smallLoader}></span>;
 };

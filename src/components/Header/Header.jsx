@@ -8,7 +8,7 @@ function Header() {
 		<header className={classes.header}>
 			<p onClick={() => navigate('/')}>
 				<img src={ReactLogo} alt='react logo' />
-				<span>React Cheat Sheet</span>
+				<span>ReactCards</span>
 			</p>
 
 			<div className={classes.headerButtons}>
