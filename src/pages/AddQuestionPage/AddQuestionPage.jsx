@@ -3,6 +3,7 @@ import { delayFn } from '../../helpers/delayFn';
 import classes from './AddQuestionPage.module.css';
 import { toast } from 'react-toastify';
 import { API_URL } from '../../constants';
+import Button from '../../components/Button';
 
 const initialFormState = {
 	question: '',
@@ -149,7 +150,7 @@ function AddQuestionPage() {
 						/>
 						<span>clear form after submitting?</span>
 					</label>
-					<button disabled={isPending}>Add question</button>
+					<Button isDisabled={isPending}>Add question</Button>
 				</form>
 			</div>
 		</>
