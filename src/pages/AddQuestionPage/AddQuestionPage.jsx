@@ -4,6 +4,7 @@ import classes from './AddQuestionPage.module.css';
 import { toast } from 'react-toastify';
 import { API_URL } from '../../constants';
 import Button from '../../components/Button';
+import { Loader } from '../../components/Loader';
 
 const initialFormState = {
 	question: '',
@@ -68,6 +69,8 @@ function AddQuestionPage() {
 
 	return (
 		<>
+			{isPending && <Loader />}
+
 			<h1 className={classes.formTitle}>Add new question</h1>
 			<div className={classes.formContainer}>
 				<form onSubmit={onSubmitHandler} className={classes.form}>
@@ -119,7 +122,6 @@ function AddQuestionPage() {
 							id='resourcesField'
 							cols='30'
 							rows='2'
-							required
 							placeholder='please enter a resources separated by commas'
 						></textarea>
 					</div>
