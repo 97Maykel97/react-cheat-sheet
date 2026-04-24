@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Badge from '../../components/Badge/Badge';
 import classes from './QuestionPage.module.css';
 import Button from '../../components/Button/Button';
-import { useEffect, useId, useState } from 'react';
+import { useCallback, useEffect, useId, useState } from 'react';
 import { useFetch } from '../../hooks/useFetch';
 import { API_URL } from '../../constants';
 import { Loader, SmallLoader } from '../../components/Loader';
@@ -17,27 +17,34 @@ function QuestionPage() {
 		card.level === 1 ? 'primary' : card.level === 2 ? 'warning' : 'alert';
 	const completedVariant = () => (card.completed ? 'success' : 'primary');
 
-	const [fetchCard, isCardLoading] = useFetch(async () => {
+	const fetchCardCallback = useCallback(async () => {
 		const response = await fetch(`${API_URL}/react/${id}`);
 		const data = await response.json();
 
 		setCard(data);
-	});
+	}, [id]);
 
-	const [updateCard, isCardUpdating] = useFetch(async isChecked => {
+	const [fetchCard, isCardLoading] = useFetch(fetchCardCallback);
+
+	const updateCardCallback = useCallback(async isChecked => {
 		const response = await fetch(`${API_URL}/react/${id}`, {
 			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+			},
 			body: JSON.stringify({ completed: isChecked }),
 		});
 
 		const data = await response.json();
 
 		setCard(data);
-	});
+	}, [id]);
+
+	const [updateCard, isCardUpdating] = useFetch(updateCardCallback);
 
 	useEffect(() => {
 		fetchCard();
-	}, []);
+	}, [fetchCard]);
 
 	const onCheckboxChangeHandler = () => {
 		if (!card) return;

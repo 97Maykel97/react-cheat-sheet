@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { API_URL } from '../../constants';
 import QuestionCardList from '../../components/QuestionCardList';
 import { Loader } from '../../components/Loader';
@@ -25,13 +25,15 @@ function HomePage() {
 	const getActivePageNumber = () =>
 		questions.next === null ? questions.last : questions.next - 1;
 
-	const [getQuestions, isLoading, error] = useFetch(async url => {
+	const getQuestionsCallback = useCallback(async url => {
 		const response = await fetch(`${API_URL}/${url}`);
 		const questions = await response.json();
 
 		setQuestions(questions);
 		return questions;
-	});
+	}, []);
+
+	const [getQuestions, isLoading, error] = useFetch(getQuestionsCallback);
 
 	const cards = useMemo(() => {
 		if (questions?.data) {
@@ -56,7 +58,7 @@ function HomePage() {
 
 	useEffect(() => {
 		getQuestions(`react${searchParams}`);
-	}, [searchParams]);
+	}, [getQuestions, searchParams]);
 
 	const onSearchChangeHandler = e => {
 		setSearchValue(e.target.value);

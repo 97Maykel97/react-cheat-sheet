@@ -50,7 +50,7 @@ function AddQuestionPage() {
 			});
 
 			if (!response.ok) {
-				throw new Error('Failed to create question');
+				throw new Error(response.statusText || 'Failed to create question');
 			}
 
 			await response.json();
